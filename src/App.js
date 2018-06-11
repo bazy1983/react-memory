@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import SmurfCard from "./components/cards"
+import smurfObj from "./cards.json"
+console.log(smurfObj)
 
 class App extends Component {
+  state = {
+    smurfs: smurfObj
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="container">
+        <div className="row">
+          {this.state.smurfs.map((smurf) => 
+          (<SmurfCard 
+            key = {smurf.id}
+            image = {smurf.img}
+            className = "col-md-3"
+          />)
+          )}
+        </div>
       </div>
-    );
-  }
+    )
+  };
 }
 
 export default App;
