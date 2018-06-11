@@ -8,10 +8,19 @@ import smurfObj from "./cards.json"
 
 
 let clickedImgs = []; //used as clicked image memory
+let winCount = 0,
+  lossCount = 0,
+  highScoreCount = 0,
+  score = 0;
+
 
 class App extends Component {
   state = {
-    smurfs: smurfObj
+    smurfs: smurfObj,
+    score: score,
+    highScore: highScoreCount,
+    win: winCount,
+    loss: lossCount
   };
 
   //game logic
@@ -21,13 +30,23 @@ class App extends Component {
     if (clickedImgs.includes(imgNumber)) {
       //losing the game
       clickedImgs = []
+      lossCount++
+      score = 0
+      highScoreCount = 0;
+      this.setState({ loss: lossCount, score: 0 })
     } else {
       //if not clicked before, save it in array
-      clickedImgs.push(imgNumber)
-
+      clickedImgs.push(imgNumber);
+      highScoreCount++
+      score++
+      if (this.state.highScore < highScoreCount) { this.setState({ highScore: highScoreCount }) }
+      this.setState({ score: score })
       if (clickedImgs.length === 12) {
         //winning the game
-        clickedImgs = []
+        clickedImgs = [];
+        winCount++;
+        score = 0
+          this.setState({ win: winCount, score: score })
       }
     }
     //shuffling the images and setting the state
@@ -41,7 +60,13 @@ class App extends Component {
   render() {
     return (
       <Wrapper>
-        <Navbar />
+        <Navbar
+          win={this.state.win}
+          loss={this.state.loss}
+          score={this.state.score}
+          highScore={this.state.highScore}
+        />
+        {/* end of navbar */}
         <div className="container">
           <div className="row">
             {this.state.smurfs.map((smurf) =>
@@ -53,6 +78,7 @@ class App extends Component {
                 className="col-md-3"
               />)
             )}
+            {/* end of cards */}
           </div>
         </div>
       </Wrapper>
