@@ -26,9 +26,14 @@ class App extends Component {
   //game logic
   //counts and saves all clicked images 
   rememberClick = (imgNumber) => {
+    let gameBox = document.querySelector(".row");
+    gameBox.classList.remove("tada", "shake")
     //checks if image already been clicked
     if (clickedImgs.includes(imgNumber)) {
       //losing the game
+      let fail = new Audio("./sound/fail.wav");
+      fail.play()
+      gameBox.classList.add("shake");
       clickedImgs = []
       lossCount++
       score = 0
@@ -43,6 +48,9 @@ class App extends Component {
       this.setState({ score: score })
       if (clickedImgs.length === 12) {
         //winning the game
+        let tada = new Audio("./sound/tada.wav")
+        tada.play();
+        gameBox.classList.add("tada")
         clickedImgs = [];
         winCount++;
         score = 0
